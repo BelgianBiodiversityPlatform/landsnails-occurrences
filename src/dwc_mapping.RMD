@@ -2,8 +2,8 @@
 title: "Darwin Core mapping"
 subtitle: "For: Landsnails from Spain & Gran Canaria"
 author:
-- author_1
-- author_2
+- Ward Langeraert
+- Dimitri Brosens
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -43,7 +43,7 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-input_data <- read_excel(path = here("data", "raw", "checklist.xlsx")) 
+input_data <- read_excel(path = here("data", "raw", "datasetWard.xlsx")) 
 ```
 
 Preview data:
