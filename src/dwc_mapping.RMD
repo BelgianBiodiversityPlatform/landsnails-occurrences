@@ -43,13 +43,14 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-input_data <- read_excel(path = here("data", "raw", "datasetWard.xlsx")) 
+input_data <- read_excel(path = here("data", "raw", "GranCanaria_2020-02-02_2020-02-08_v1.xlsx")) 
 ```
 
 Preview data:
 
 ```{r}
 input_data %>% head(n = 5)
+View(input_data)
 ```
 
 # Process source data
@@ -64,13 +65,25 @@ input_data %<>% remove_empty("rows")
 
 ## Scientific names
 
-Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the checklist:
+```{r}
+input_data %<>% mutate(kingdom = "animalia")
+```
+
+
+Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
 
 ```{r}
 parsed_names <- input_data %>%
-  distinct(scientific_name) %>%
+  distinct(scientificName) %>%
   pull() %>% # Create vector from dataframe
   parsenames() # An rgbif function
+```
+
+Preview data:
+
+```{r}
+parsed_names %>% head(n = 5)
+View(parsed_names)
 ```
 
 Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
@@ -84,9 +97,11 @@ parsed_names %>%
 Correct names and reparse:
 
 ```{r correct and reparse}
-input_data %<>% mutate(scientific_name = recode(scientific_name,
-  "AseroÙ rubra" = "Asero rubra"
-))
+#input_data %<>% mutate(scientificname = recode(scientificName,
+#  "Physella cf. acuta" = "Physella acuta"
+#  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
+#  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
+#))
 
 # Redo parsing
 parsed_names <- input_data %>%
@@ -108,7 +123,7 @@ The nameparser function also provides information about the rank of the taxon (i
 input_data %<>% left_join(
   parsed_names %>%
   select(scientificname, rankmarker),
-  by = c("scientific_name" = "scientificname"))
+  by = c("scientificName" = "scientificname"))
 ```
 
 ## Taxon IDs
@@ -118,9 +133,9 @@ To link taxa with information in the extension(s), each taxon needs a unique and
 ```{r}
 vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
 input_data %<>% mutate(taxon_id = paste(
-  "my_dataset_shortname", # e.g. "alien-fishes-checklist"
+  "checklist_snails_spain", # e.g. "alien-fishes-checklist"
   "taxon",
-  vdigest(paste(scientific_name, kingdom), algo = "md5"),
+  vdigest(paste(scientificName, kingdom), algo = "md5"),
   sep = ":"
 ))
 ```
@@ -145,56 +160,56 @@ Preview data:
 input_data %>% head()
 ```
 
-# Taxon core
+# Occurrence core
 
 ## Pre-processing
 
 Create a dataframe with unique taxa only (ignoring multiple distribution rows):
 
 ```{r}
-taxon <- input_data %>% distinct(taxon_id, .keep_all = TRUE)
+occurrence <- input_data 
 ```
 
 ## Term mapping
 
-Map the data to [Darwin Core Taxon](http://rs.gbif.org/core/dwc_taxon_2015-04-24.xml).
+Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
 
 Start with record-level terms which contain metadata about the dataset (which is generally the same for all records).
 
 ### language
 
 ```{r}
-taxon %<>% mutate(dwc_language = "my_language") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "my_language") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-taxon %<>% mutate(dwc_license = "my_license") # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+occurrence %<>% mutate(dwc_license = "my_license") # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
 ### rightsHolder
 
 ```{r}
-taxon %<>% mutate(dwc_rightsHolder = "my_rights_holder") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "Ugent") # e.g. "INBO"
 ```
 
 ### datasetID
 
 ```{r}
-taxon %<>% mutate(dwc_datasetID = "my_dataset_doi") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(dwc_datasetID = "my_dataset_doi") # e.g. "https://doi.org/10.15468/xvuzfh"
 ```
 
 ### institutionCode
 
 ```{r}
-taxon %<>% mutate(dwc_institutionCode = "my_institution_code") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "my_institution_code") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-taxon %<>% mutate(dwc_datasetName = "my_dataset_title") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "my_dataset_title") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -202,13 +217,13 @@ The following terms contain information about the taxon:
 ### taxonID
 
 ```{r}
-taxon %<>% mutate(dwc_taxonID = taxon_id)
+occurrence %<>% mutate(dwc_taxonID = taxon_id)
 ```
 
 ### scientificName
 
 ```{r}
-taxon %<>% mutate(dwc_scientificName = scientific_name)
+occurrence %<>% mutate(dwc_scientificName = scientificname)
 ```
 
 ### kingdom
@@ -216,7 +231,7 @@ taxon %<>% mutate(dwc_scientificName = scientific_name)
 Inspect values:
 
 ```{r}
-taxon %>%
+occurrence %>%
   group_by(kingdom) %>%
   count()
 ```
@@ -224,7 +239,7 @@ taxon %>%
 Map values:
 
 ```{r}
-taxon %<>% mutate(dwc_kingdom = kingdom)
+occurrence %<>% mutate(dwc_kingdom = kingdom)
 ```
 
 ### taxonRank
@@ -232,7 +247,7 @@ taxon %<>% mutate(dwc_kingdom = kingdom)
 Inspect values:
 
 ```{r}
-taxon %>%
+occurrence %>%
   group_by(rankmarker) %>%
   count()
 ```
@@ -240,7 +255,7 @@ taxon %>%
 Map values by recoding to the [GBIF rank vocabulary](http://rs.gbif.org/vocabulary/gbif/rank_2015-04-24.xml):
 
 ```{r}
-taxon %<>% mutate(dwc_taxonRank = recode(rankmarker,
+occurrence %<>% mutate(dwc_taxonRank = recode(rankmarker,
   "agg."      = "speciesAggregate",
   "infrasp."  = "infraspecificname",
   "sp."       = "species",
@@ -253,7 +268,7 @@ taxon %<>% mutate(dwc_taxonRank = recode(rankmarker,
 Inspect mapped values: 
 
 ```{r}
-taxon %>%
+occurrence %>%
   group_by(rankmarker, dwc_taxonRank) %>%
   count()
 ```
@@ -261,7 +276,7 @@ taxon %>%
 ### nomenclaturalCode
 
 ```{r}
-taxon %<>% mutate(dwc_nomenclaturalCode = "my_nomenclaturalCode") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "my_nomenclaturalCode") # e.g. "ICZN"
 ```
 
 ## Post-processing
@@ -269,25 +284,25 @@ taxon %<>% mutate(dwc_nomenclaturalCode = "my_nomenclaturalCode") # e.g. "ICZN"
 Only keep the Darwin Core columns:
 
 ```{r}
-taxon %<>% select(starts_with("dwc_"))
+occurrence %<>% select(starts_with("dwc_"))
 ```
 
 Drop the `dwc_` prefix:
 
 ```{r}
-colnames(taxon) <- str_remove(colnames(taxon), "dwc_")
+colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 ```
 
 Preview data:
 
 ```{r}
-taxon %>% head()
+occurrence %>% head()
 ```
 
 Save to CSV:
 
 ```{r}
-write_csv(taxon, here("data", "processed", "taxon.csv"), na = "")
+write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
 ```
 
 # Distribution extension
