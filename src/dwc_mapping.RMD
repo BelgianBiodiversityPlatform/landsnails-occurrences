@@ -43,7 +43,7 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-input_data <- read_excel(path = here("data", "raw", "GranCanaria_2020-02-02_2020-02-08_v1.xlsx")) 
+input_data <- read_excel(path = here("data", "raw", "GranCanaria_ES_TOTAL_v1.xlsx")) 
 ```
 
 Preview data:
