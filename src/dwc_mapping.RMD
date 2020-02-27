@@ -64,9 +64,10 @@ input_data %<>% remove_empty("rows")
 ```
 
 ## Scientific names
+(kolom toevoegen)
 
 ```{r}
-input_data %<>% mutate(kingdom = "animalia")
+input_data %<>% mutate(kingdom = "Animalia")
 ```
 
 
@@ -97,11 +98,11 @@ parsed_names %>%
 Correct names and reparse:
 
 ```{r correct and reparse}
-#input_data %<>% mutate(scientificname = recode(scientificName,
-#  "Physella cf. acuta" = "Physella acuta"
-#  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
-#  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
-#))
+input_data %<>% mutate(scientificname = recode(scientificName,
+  "Physella cf. acuta" = "Physella acuta"
+  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
+  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
+))
 
 # Redo parsing
 parsed_names <- input_data %>%
