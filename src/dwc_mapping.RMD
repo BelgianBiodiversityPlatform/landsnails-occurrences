@@ -90,18 +90,37 @@ View(parsed_names)
 Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
 
 ```{r}
-parsed_names %>%
+informal_names <- parsed_names %>%
   select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
   filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
+informal_names
 ```
 
 Correct names and reparse:
 
 ```{r correct and reparse}
+#new_names <- c()
+#for (name in informal_names$scientificname) {
+  #splitted <- strsplit(name, ' ')
+  #if (lengths(splitted) == 3) {
+    #new_name <- paste(splitted[[1]][[1]], splitted[[1]][[3]], sep=" ")
+    #new_names <- c(new_names, name = new_name)
+  #}
+#}
+#input_data %<>% mutate(scientificname = recode(scientificName, !!!new_names))
+
+#waarom lukt het niet met deze for loop? new_names is niet goed ...
+
 input_data %<>% mutate(scientificname = recode(scientificName,
+  
+  "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
+  "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
+  "Xerotricha aff. orbignii" = "Xerotricha orbignii",
+  "Napaeus cf. venegueraensis" = "Napaeus venegueraensis",
+  "Monilearia cf. praeposita" = "Monilearia praeposita",
+  "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
+  "Pomatias aff. laevigatus" = "Pomatias laevigatus",
   "Physella cf. acuta" = "Physella acuta"
-  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
-  ,"Pomatias aff. laevigatus" = "Pomatias laevigatus"
 ))
 
 # Redo parsing
