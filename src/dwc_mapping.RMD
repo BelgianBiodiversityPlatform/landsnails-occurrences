@@ -120,8 +120,11 @@ input_data %<>% mutate(scientificname = recode(scientificName,
   "Monilearia cf. praeposita" = "Monilearia praeposita",
   "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
   "Pomatias aff. laevigatus" = "Pomatias laevigatus",
-  "Physella cf. acuta" = "Physella acuta"
+  "Physella cf. acuta" = "Physella acuta",
+  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
 ))
+
+#heb verder gezien dat Hemicycla psathyra cf. temperata als forma werd herkend maar blijkt opgelost door deze hier ook aan te passen
 
 # Redo parsing
 parsed_names <- input_data %>%
@@ -199,19 +202,19 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### language
 
 ```{r}
-occurrence %<>% mutate(dwc_language = "my_language") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "my_license") # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+occurrence %<>% mutate(dwc_license = "CC0 1.0") # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(dwc_rightsHolder = "Ugent") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "UGent") # e.g. "INBO"
 ```
 
 ### datasetID
@@ -229,7 +232,7 @@ occurrence %<>% mutate(dwc_institutionCode = "my_institution_code") # e.g. "INBO
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "my_dataset_title") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "Land and freshwater molluscs of Gran Canaria (Spain)") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
