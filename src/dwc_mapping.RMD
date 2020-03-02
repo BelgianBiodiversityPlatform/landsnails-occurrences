@@ -320,6 +320,7 @@ Preview data:
 
 ```{r}
 occurrence %>% head()
+View(occurrence)
 ```
 
 Save to CSV:
