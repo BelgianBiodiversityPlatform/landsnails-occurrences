@@ -158,7 +158,7 @@ To link taxa with information in the extension(s), each taxon needs a unique and
 ```{r}
 vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
 input_data %<>% mutate(taxon_id = paste(
-  "checklist_snails_spain", # e.g. "alien-fishes-checklist"
+  "checklist_snails_grancanaria", # e.g. "alien-fishes-checklist"
   "taxon",
   vdigest(paste(scientificName, kingdom), algo = "md5"),
   sep = ":"
@@ -211,7 +211,8 @@ occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
 ### license
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "CC0 1.0") # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+# e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
 ### rightsHolder
