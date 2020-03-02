@@ -299,16 +299,16 @@ occurrence %>%
 ### nomenclaturalCode
 
 ```{r}
-occurrence %<>% mutate(dwc_nomenclaturalCode = "my_nomenclaturalCode") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 ## Post-processing
 
 Only keep the Darwin Core columns:
 
-```{r}
-occurrence %<>% select(starts_with("dwc_"))
-```
+#```{r}
+#occurrence %<>% select(starts_with("dwc_"))
+#```
 
 Drop the `dwc_` prefix:
 
