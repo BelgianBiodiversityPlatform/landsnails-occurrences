@@ -107,9 +107,9 @@ Correct names and reparse:
 #    new_names <- c(new_names, name = new_name)
 #  }
 #}
-View(new_names)
-input_data %<>% mutate(scientificname2 = recode(scientificName, !!!new_names))
-View(input_data)
+#View(new_names)
+#input_data %<>% mutate(scientificname2 = recode(scientificName, !!!new_names))
+#View(input_data)
 #waarom lukt het niet met deze for loop? new_names is niet goed ...
 #ok, ik snap het, moet ik wel ff uitzoeken
 #ik weet niet of je !!! of wat je wel moet gebruiken, voorlopig 2e deel gebruiken
