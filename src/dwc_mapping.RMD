@@ -70,12 +70,20 @@ input_data %<>% remove_empty("rows")
 input_data %<>% mutate(kingdom = "Animalia")
 ```
 
+Rename column scientificName (we don't want multiple times the same column header)
+
+```{r}
+input_data %<>% 
+  rename(verbatimScientificName = scientificName)
+View(input_data)
+```
+
 
 Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
 
 ```{r}
 parsed_names <- input_data %>%
-  distinct(scientificName) %>%
+  distinct(verbatimScientificName) %>%
   pull() %>% # Create vector from dataframe
   parsenames() # An rgbif function
 ```
@@ -113,7 +121,7 @@ Correct names and reparse:
 #waarom lukt het niet met deze for loop? new_names is niet goed ...
 #ok, ik snap het, moet ik wel ff uitzoeken
 #ik weet niet of je !!! of wat je wel moet gebruiken, voorlopig 2e deel gebruiken
-input_data %<>% mutate(scientificname = recode(scientificName,
+input_data %<>% mutate(scientificname = recode(verbatimScientificName,
   
   "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
   "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
@@ -130,7 +138,7 @@ input_data %<>% mutate(scientificname = recode(scientificName,
 
 # Redo parsing
 parsed_names <- input_data %>%
-  distinct(scientific_name) %>%
+  distinct(scientifiName) %>%
   pull() %>%
   parsenames()
 
@@ -148,7 +156,7 @@ The nameparser function also provides information about the rank of the taxon (i
 input_data %<>% left_join(
   parsed_names %>%
   select(scientificname, rankmarker),
-  by = c("scientificName" = "scientificname"))
+  by = c("verbatimScientificName" = "scientificname"))
 ```
 
 ## Taxon IDs
@@ -160,7 +168,7 @@ vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
 input_data %<>% mutate(taxon_id = paste(
   "checklist_snails_grancanaria", # e.g. "alien-fishes-checklist"
   "taxon",
-  vdigest(paste(scientificName, kingdom), algo = "md5"),
+  vdigest(paste(verbatimScientificName, kingdom), algo = "md5"),
   sep = ":"
 ))
 ```
@@ -190,10 +198,11 @@ View(input_data)
 
 ## Pre-processing
 
-Create a dataframe with unique taxa only (ignoring multiple distribution rows):
+Create a dataframe occurrence data only (ignoring multiple distribution rows):
 
 ```{r}
-occurrence <- input_data 
+occurrence <- input_data
+View(occurrence)
 ```
 
 ## Term mapping
@@ -205,38 +214,38 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### language
 
 ```{r}
-occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
+occurrence %<>% mutate(language = "en") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
 # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(dwc_rightsHolder = "UGent") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = "UGent") # e.g. "INBO"
 ```
 
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "my_dataset_doi") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(datasetID = "my_dataset_doi") # e.g. "https://doi.org/10.15468/xvuzfh"
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(dwc_institutionCode = "my_institution_code") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "my_institution_code") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "Land and freshwater molluscs of Gran Canaria (Spain)") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "Land and freshwater molluscs of Gran Canaria (Spain)") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -244,13 +253,13 @@ The following terms contain information about the taxon:
 ### taxonID
 
 ```{r}
-occurrence %<>% mutate(dwc_taxonID = taxon_id)
+occurrence %<>% mutate(taxonID = taxon_id)
 ```
 
 ### scientificName
 
 ```{r}
-occurrence %<>% mutate(dwc_scientificName = scientificname)
+occurrence %<>% mutate(scientificName = scientificname)
 ```
 
 ### kingdom
