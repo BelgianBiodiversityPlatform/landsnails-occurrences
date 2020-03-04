@@ -274,9 +274,6 @@ occurrence %>%
 
 Map values:
 
-```{r}
-occurrence %<>% mutate(dwc_kingdom = kingdom)
-```
 
 ### taxonRank
 
@@ -291,7 +288,7 @@ occurrence %>%
 Map values by recoding to the [GBIF rank vocabulary](http://rs.gbif.org/vocabulary/gbif/rank_2015-04-24.xml):
 
 ```{r}
-occurrence %<>% mutate(dwc_taxonRank = recode(rankmarker,
+occurrence %<>% mutate(taxonRank = recode(rankmarker,
   "agg."      = "speciesAggregate",
   "infrasp."  = "infraspecificname",
   "sp."       = "species",
@@ -305,25 +302,18 @@ Inspect mapped values:
 
 ```{r}
 occurrence %>%
-  group_by(rankmarker, dwc_taxonRank) %>%
+  group_by(rankmarker, taxonRank) %>%
   count()
 ```
 
 ### nomenclaturalCode
 
 ```{r}
-occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 ## Post-processing
 
-Only keep the Darwin Core columns:
-
-#```{r}
-#occurrence %<>% select(starts_with("dwc_"))
-#```
-
-Drop the `dwc_` prefix:
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
