@@ -157,6 +157,7 @@ input_data %<>% left_join(
   parsed_names %>%
   select(scientificname, rankmarker),
   by = c("verbatimScientificName" = "scientificname"))
+#hier komen de distribution erbij, dit moet nog aangepast worden?
 ```
 
 ## Taxon IDs
@@ -260,6 +261,9 @@ occurrence %<>% mutate(taxonID = taxon_id)
 
 ```{r}
 occurrence %<>% mutate(scientificName = scientificname)
+#occurrence %<>% select(-scientificname) #removes column
+#why not just rename scientificname to scientificName?
+#occurence %<>% rename(scientificName = scientificname)
 ```
 
 ### kingdom
