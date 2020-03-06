@@ -156,7 +156,7 @@ The nameparser function also provides information about the rank of the taxon (i
 input_data %<>% left_join(
   parsed_names %>%
   select(scientificname, rankmarker),
-  by = c("verbatimScientificName" = "scientificname"))
+  by = c("scientificname" = "scientificname"))
 #hier komen de distribution erbij, dit moet nog aangepast worden?
 ```
 
@@ -260,10 +260,10 @@ occurrence %<>% mutate(taxonID = taxon_id)
 ### scientificName
 
 ```{r}
-occurrence %<>% mutate(scientificName = scientificname)
+#occurrence %<>% mutate(scientificName = scientificname)
 #occurrence %<>% select(-scientificname) #removes column
 #why not just rename scientificname to scientificName?
-#occurence %<>% rename(scientificName = scientificname)
+occurence %<>% rename(scientificName = scientificname)
 ```
 
 ### kingdom
@@ -300,6 +300,7 @@ occurrence %<>% mutate(taxonRank = recode(rankmarker,
   .default    = "",
   .missing    = ""
 ))
+#rankmarker mag weg
 ```
 
 Inspect mapped values: 
