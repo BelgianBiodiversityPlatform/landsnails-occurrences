@@ -168,7 +168,7 @@ input_data %<>% left_join(
 #hier komen de distribution erbij, dit moet nog aangepast worden?
 ```
 ```{r}
-input_data <- unique(input_data)
+#input_data <- unique(input_data)
 
 
 ```
