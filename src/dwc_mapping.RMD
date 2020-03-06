@@ -50,7 +50,7 @@ Preview data:
 
 ```{r}
 input_data %>% head(n = 5)
-View(input_data)
+
 ```
 
 # Process source data
@@ -75,7 +75,7 @@ Rename column scientificName (we don't want multiple times the same column heade
 ```{r}
 input_data %<>% 
   rename(verbatimScientificName = scientificName)
-View(input_data)
+
 ```
 
 
@@ -91,8 +91,8 @@ parsed_names <- input_data %>%
 Preview data:
 
 ```{r}
-parsed_names %>% head(n = 5)
-View(parsed_names)
+parsed_names %>% head(n = 62)
+
 ```
 
 Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
@@ -135,14 +135,21 @@ input_data %<>% mutate(scientificname = recode(verbatimScientificName,
 ))
 
 #heb verder gezien dat Hemicycla psathyra cf. temperata als forma werd herkend maar blijkt opgelost door deze hier ook aan te passen
+```
 
+
+```{r correct and reparse}
 # Redo parsing
 parsed_names <- input_data %>%
-  distinct(scientifiName) %>%
+  distinct(scientificname) %>%
   pull() %>%
   parsenames()
+```
+
 
 # Show names with nomenclatural issues again
+
+```{r correct and reparse}
 parsed_names %>%
   select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
   filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
@@ -152,12 +159,18 @@ parsed_names %>%
 
 The nameparser function also provides information about the rank of the taxon (in `rankmarker`). Here we join this information with our checklist. Cleaning these ranks will done in the Taxon Core mapping:
 
+
 ```{r}
 input_data %<>% left_join(
   parsed_names %>%
-  select(scientificname, rankmarker),
+  select (scientificname, rankmarker),
   by = c("scientificname" = "scientificname"))
 #hier komen de distribution erbij, dit moet nog aangepast worden?
+```
+```{r}
+input_data <- unique(input_data)
+
+
 ```
 
 ## Taxon IDs
