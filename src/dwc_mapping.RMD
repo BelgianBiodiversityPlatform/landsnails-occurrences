@@ -167,11 +167,6 @@ input_data %<>% left_join(
   by = c("scientificname" = "scientificname"))
 #hier komen de distribution erbij, dit moet nog aangepast worden?
 ```
-```{r}
-#input_data <- unique(input_data)
-
-
-```
 
 ## Taxon IDs
 
