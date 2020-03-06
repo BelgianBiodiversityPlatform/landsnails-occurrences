@@ -263,7 +263,7 @@ occurrence %<>% mutate(taxonID = taxon_id)
 #occurrence %<>% mutate(scientificName = scientificname)
 #occurrence %<>% select(-scientificname) #removes column
 #why not just rename scientificname to scientificName?
-occurence %<>% rename(scientificName = scientificname)
+occurrence %<>% rename(scientificName = scientificname)
 ```
 
 ### kingdom
