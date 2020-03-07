@@ -248,7 +248,7 @@ occurrence %<>% mutate(datasetID = "my_dataset_doi") # e.g. "https://doi.org/10.
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "my_institution_code") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "UGent") # e.g. "INBO"
 ```
 
 ### datasetName
@@ -301,10 +301,10 @@ Map values by recoding to the [GBIF rank vocabulary](http://rs.gbif.org/vocabula
 
 ```{r}
 occurrence %<>% mutate(taxonRank = recode(rankmarker,
-  "agg."      = "speciesAggregate",
   "infrasp."  = "infraspecificname",
   "sp."       = "species",
   "var."      = "variety",
+  "f."      = "form",
   .default    = "",
   .missing    = ""
 ))
@@ -330,6 +330,8 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
+#remove collectoin columns
+occurrence %<>% select(-c(disposition, etiket_ref, collection))
 ```
 
 Preview data:
@@ -342,6 +344,7 @@ View(occurrence)
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
+#write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
+write.csv(occurrence, "C:\\Users\\WARD\\OneDrive - UGent\\School\\1ste master\\sem_2\\Project\\landsnails-occurrences\\data\\processed\\occurence.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
 ```
 
