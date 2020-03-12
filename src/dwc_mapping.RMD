@@ -328,6 +328,7 @@ Save to CSV:
 
 ```{r}
 #write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
-write.csv(occurrence, "C:\\Users\\WARD\\OneDrive - UGent\\School\\1ste master\\sem_2\\Project\\landsnails-occurrences\\data\\processed\\occurrence.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
+write_csv(occurrence, here("data", "processed", "occurrence.csv"), append = FALSE, na = "")
+#write.csv(occurrence, "C:\\Users\\WARD\\OneDrive - UGent\\School\\1ste master\\sem_2\\Project\\landsnails-occurrences\\data\\processed\\occurrence.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
 ```
 
