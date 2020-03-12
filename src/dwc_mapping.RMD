@@ -243,12 +243,12 @@ The following terms contain information about the taxon:
 occurrence %<>% rename(taxonID = taxon_id)
 ```
 
-### scientificName
+### scientificName + (intra)specificEpithet
 
 ```{r}
-#occurrence %<>% mutate(scientificName = scientificname)
-#Better: rename old column
 occurrence %<>% rename(scientificName = scientificname)
+occurrence %<>% rename(specificEpithet = species)
+occurrence %<>% rename(infraspecificEpithet = subspecies)
 ```
 ### scientificNameAuthorship
 
