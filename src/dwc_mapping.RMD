@@ -314,7 +314,9 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
-occurrence %<>% select(-c(disposition, etiket_ref, collection)) #remove collection columns
+occurrence %<>% select(-c(disposition, etiket_ref, collection, scientificName)) %<>% #remove collection columns
+            rename(scientificName = verbatimScientificName) 
+
 ```
 
 Preview data:
