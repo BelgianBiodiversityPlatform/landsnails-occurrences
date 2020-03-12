@@ -37,3 +37,8 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+#Big files and presentations
+.docx
+7. Biodiversity Informatics 2019.pptx
+.pdf
