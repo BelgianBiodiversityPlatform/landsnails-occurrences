@@ -249,6 +249,15 @@ occurrence %<>% mutate(taxonID = taxon_id)
 occurrence %<>% rename(scientificName = scientificname)
 ```
 
+###identifiedBy
+rename column determinavit(det.)
+
+```{r}
+occurrence %<>% rename(identifiedBy = 'determinavit (det.)')
+```
+
+
+
 ### kingdom
 
 Inspect values:
