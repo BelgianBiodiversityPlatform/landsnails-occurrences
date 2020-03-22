@@ -146,6 +146,16 @@ input_data %<>% left_join(
   by = c("scientificname" = "scientificname"))
 ```
 
+```{r}
+# Adjust rankmarker
+input_data %<>% mutate(rankmarker = recode(verbatimScientificName,
+  "Monilearia spec." = "genus",
+  "Hemicycla spec." = "genus",
+  "Napaeus spec." = "genus",
+  .default = rankmarker
+))
+```
+
 ## Taxon IDs
 
 To link taxa with information in the extension(s), each taxon needs a unique and relatively stable `taxonID`. Here we create one in the form of `dataset_shortname:taxon:hash`, where `hash` is unique code based on scientific name and kingdom (that will remain the same as long as scientific name and kingdom remain the same):
@@ -292,10 +302,14 @@ Map values by recoding to the [GBIF rank vocabulary](http://rs.gbif.org/vocabula
 
 ```{r}
 occurrence %<>% mutate(taxonRank = recode(rankmarker,
-  "infrasp."  = "infraspecificname",
+  "infrasp."  = "subspecies",
   "sp."       = "species",
   "var."      = "variety",
-  "f."      = "form",
+  "f."        = "form",
+  "genus"     = "genus",
+  "subgenus"  = "subgenus",
+  "family"    = "family",
+  "class"     = "class",
   .default    = "",
   .missing    = ""
 ))
@@ -307,6 +321,7 @@ Inspect mapped values:
 occurrence %>%
   group_by(rankmarker, taxonRank) %>%
   count()
+occurrence %<>% select(-rankmarker)
 ```
 
 ### nomenclaturalCode
