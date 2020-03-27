@@ -58,9 +58,10 @@ The repository structure is based on [Cookiecutter Data Science](http://drivenda
 
 ## Contributors
 
-<!-- This section lists everyone who contributed to this repository. You can maintain a manual list here or reference the contributors on GitHub. -->
+Ward Langeraert
+Dimitri Brosens
 
-[List of contributors](<!-- Add the URL to the GitHub contributors of your repository here, e.g. https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors -->)
+[List of contributors](https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors)
 
 ## License
 
