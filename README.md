@@ -58,6 +58,9 @@ The repository structure is based on [Cookiecutter Data Science](http://drivenda
 
 ## Contributors
 
+Ward Langeraert
+Dimitri Brosens
+
 [List of contributors](https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors)
 
 ## License
