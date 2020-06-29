@@ -169,6 +169,13 @@ input_data %<>% mutate(taxon_id = paste(
   sep = ":"
 ))
 ```
+## GeodeticDatum
+
+```{r}
+input_data %<>% mutate(geodeticDatum = "WGS84")
+```
+
+
 
 ## Preview data
 
@@ -331,6 +338,15 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 ## Post-processing
+
+## round decilalLatLong
+
+```{r}
+occurrence %<>% mutate(decimalLatitude = round(decimalLatitude, 4)) %>%
+                mutate(decimalLongitude = round(decimalLongitude, 4))
+
+```
+
 
 
 ```{r}
