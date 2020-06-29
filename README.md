@@ -13,7 +13,7 @@ This repository contains the functionality to standardize the data of the Landsn
 
 <!-- This section describes how we go from raw data to standardized Darwin Core data -->
 
-[source data](data/raw) <!-- Additionally, you can write here where that raw data came from, e.g. "(downloaded as [Supplementary Material 1](http://neobiota.pensoft.net//lib/ajax_srv/article_elements_srv.php?action=download_suppl_file&instance_id=31&article_id=4007))" --> → Darwin Core [mapping script](src/dwc_mapping.Rmd) → generated [Darwin Core files](data/processed)
+[source data](data/raw) <!-- Additionally, you can write here where that raw data came from, e.g. "(downloaded as [Supplementary Material 1](http://neobiota.pensoft.net//lib/ajax_srv/article_elements_srv.php?action=download_suppl_file&instance_id=31&article_id=4007))" --> → Darwin Core [mapping script](src/dwc_mapping.RMD) → generated [Darwin Core files](data/processed)
 
 ## Published dataset
 
@@ -58,9 +58,10 @@ The repository structure is based on [Cookiecutter Data Science](http://drivenda
 
 ## Contributors
 
-<!-- This section lists everyone who contributed to this repository. You can maintain a manual list here or reference the contributors on GitHub. -->
+Ward Langeraert
+Dimitri Brosens
 
-[List of contributors](<!-- Add the URL to the GitHub contributors of your repository here, e.g. https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors -->)
+[List of contributors](https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors)
 
 ## License
 
