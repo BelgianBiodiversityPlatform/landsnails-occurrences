@@ -112,7 +112,11 @@ input_data %<>% mutate(scientificname = recode(verbatimScientificName,
   "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
   "Pomatias aff. laevigatus" = "Pomatias laevigatus",
   "Physella cf. acuta" = "Physella acuta",
-  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
+  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata",
+  "Monilearia spec." = "Monilearia",
+  "Napaeus spec." = "Napaeus",
+  "Hemicycla spec." = "Hemicycla"
+  
 ))
 ```
 
@@ -130,7 +134,7 @@ parsed_names <- input_data %>%
 
 ```{r correct and reparse}
 parsed_names %>%
-  select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
+  select(scientificname,canonicalname, type, parsed, parsedpartially, rankmarker) %>%
   filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
 ```
 
@@ -352,8 +356,8 @@ occurrence %<>% mutate(decimalLatitude = round(decimalLatitude, 4)) %>%
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
-occurrence %<>% select(-c(disposition, etiket_ref, collection, scientificName)) %<>% #remove collection columns
-            rename(scientificName = verbatimScientificName) 
+occurrence %<>% select(-c(disposition, etiket_ref, collection))  #remove collection columns
+             
 
 ```
 
