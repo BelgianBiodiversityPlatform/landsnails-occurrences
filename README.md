@@ -18,8 +18,8 @@ This repository contains the functionality to standardize the data of the Landsn
 ## Published dataset
 
 
-* [Dataset on the IPT](<!-- Add the URL of the dataset on the IPT here -->)
-* [Dataset on GBIF](<!-- Add the DOI of the dataset on GBIF here -->)
+* [Dataset on the IPT](https://ipt.biodiversity.be/resource?r=snail-gran-canaria-occurrences)
+* [Dataset on GBIF](https://www.gbif.org/dataset/addf4056-698b-4d66-881f-525e51342359)
 
 ## Repo structure
 
