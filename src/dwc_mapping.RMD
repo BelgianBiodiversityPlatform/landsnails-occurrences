@@ -356,7 +356,7 @@ occurrence %<>% mutate(decimalLatitude = round(decimalLatitude, 4)) %>%
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
-occurrence %<>% select(-c(disposition, etiket_ref, collection))  #remove collection columns
+occurrence %<>% select(-c(disposition, etiket_ref, collection, infraspecificEpithet, specificEpithet))  #remove collection columns
              
 
 ```
